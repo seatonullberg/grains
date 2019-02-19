@@ -145,14 +145,3 @@ class Grains(object):
         image_area_pix = self.working_image.size
         target_area_microns = (target_area_pix/image_area_pix) * image_area_microns
         return target_area_microns
-
-
-if __name__ == "__main__":
-    g = Grains("../examples/test_grains.jpg", 311, 291)
-    g.preprocess_image()
-    g.set_contours()
-    g.set_moments()
-    g.set_centroids()
-    g.write_img_out()
-    g.write_hist_out()
-    g.write_stats_out()

@@ -1,1 +1,5 @@
+build/*
+dist/*
+grains.egg-info/*
 grains/__pycache__/*
+.DS_Store
