@@ -1,12 +1,15 @@
 import cv2
 import copy
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Grains(object):
 
-    def __init__(self, input_fn):
+    def __init__(self, input_fn, height_microns, width_microns):
         self.input_fn = input_fn
+        self.height_microns = height_microns
+        self.width_microns = width_microns
         self.img_out_fn = "{}.grains.image.png".format(self.input_fn)
         self.plot_out_fn = "{}.grains.plot.png".format(self.input_fn)
         self.stats_out_fn = "{}.grains.stats.txt".format(self.input_fn)
@@ -16,6 +19,18 @@ class Grains(object):
         self.moments = None
         self.centroids = None
 
+    @property
+    def grain_count(self):
+        return len(self.contours)
+
+    @property
+    def average_grain_area(self):
+        mean = np.sum(self.contour_areas_microns())/len(self.contour_areas_microns())
+        return mean
+
+    @property
+    def average_grain_area_ASTME112(self):
+        raise NotImplementedError()
 
     def preprocess_image(self, thresh=None, maxval=None, thresh_type=None, kernel=None, iterations=None):
         # process args
@@ -81,17 +96,54 @@ class Grains(object):
             centroids.append(coords)
         self.centroids = centroids         
 
-    def _write_img_out(self):
+    def contour_areas_microns(self):
+        # check runtime order
+        if self.contours is None:
+            raise RuntimeError("self.contours has not yet been set.\nRun Grains().set_contours to do so.")
+        # collect all areas
+        areas = []
+        for c in self.contours:
+            pix_area = cv2.contourArea(c)
+            microns_area = self._pix_area_to_microns_area(pix_area)
+            areas.append(microns_area)
+        return areas
+
+    def write_img_out(self):
+        if self.centroids is None:
+            raise RuntimeError("self.centroids has not yet been set.\nRun Grains().set_centroids() to do so.")
+        
         img = copy.deepcopy(self.base_image)
         for i, c in enumerate(self.centroids):
             cv2.circle(img, (c["x"], c["y"]), 3, (0,0,255), thickness=-3)
         cv2.imwrite(self.img_out_fn, img)
-        
+
+    def write_hist_out(self, bins=None):
+        # process args
+        if bins is None:
+            bins = 20
+        # plot a histogram of the areas
+        areas = self.contour_areas_microns()
+        plt.hist(x=areas, bins=bins)
+        plt.title("Grain Area Distribution")
+        plt.xlabel("microns squared")
+        plt.ylabel("counts")
+        plt.tight_layout()
+        plt.savefig(self.plot_out_fn)
+
+    def _pix_area_to_microns_area(self, target_area_pix):
+        image_area_microns = self.height_microns * self.width_microns
+        image_area_pix = self.working_image.size
+        target_area_microns = (target_area_pix/image_area_pix) * image_area_microns
+        return target_area_microns
+
 
 if __name__ == "__main__":
-    g = Grains("test_grains.jpg")
+    g = Grains("test_grains.jpg", 311, 291)
     g.preprocess_image()
     g.set_contours()
     g.set_moments()
     g.set_centroids()
-    g._write_img_out()
+    g.write_img_out()
+    g.write_hist_out()
+    print("Grain count: {}".format(g.grain_count))
+    print("Average grain size: {} um^2".format(g.average_grain_area))
