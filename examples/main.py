@@ -2,7 +2,7 @@ import grains
 
 if __name__ == "__main__":
     # in this example the width and height are not to scale
-    g = grains.Grains("test_grains.jpg", 311, 291)
+    g = grains.GrainsAnalyzer("test_grains.jpg", 311, 291)
     # do thresholding and noise reduction
     g.preprocess_image()
     # find contours
