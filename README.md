@@ -3,7 +3,7 @@
 grains is a software package for the tens of tech savy metallurgists and ceramists out there who are tired of counting grains by hand. The goal of this project is to accelerate the process of grain analysis by applying modern computer vision algorithms.
 
 # Example
-![before](./grains/test_grains.jpg) ![after](./grains/test_grains.jpg.grains.image.png) ![histogram](./grains/test_grains.jpg.grains.plot.png)
+![before](./examples/test_grains.jpg) ![after](./examples/test_grains.jpg.grains.image.png) ![histogram](./examples/test_grains.jpg.grains.plot.png)
 
 Grain detection with default settings.
 
