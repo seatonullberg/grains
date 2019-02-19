@@ -1,5 +1,7 @@
 import cv2
+import copy
 import numpy as np
+
 
 class Grains(object):
 
@@ -8,30 +10,66 @@ class Grains(object):
         self.img_out_fn = "{}.grains.image.png".format(self.input_fn)
         self.plot_out_fn = "{}.grains.plot.png".format(self.input_fn)
         self.stats_out_fn = "{}.grains.stats.txt".format(self.input_fn)
+        self.base_image = cv2.imread(self.input_fn)
+        self.working_image = None
+        self.contours = None
+        self.moments = None
+        self.centroids = None
 
-    @property
-    def contours(self):
-        img = cv2.imread(self.input_fn)
-        grayscale_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        _ret, threshold = cv2.threshold(grayscale_img, 50, 255, 0)
-        kernel = np.ones((3,3), np.uint8)
-        opened_img = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel)
-        cv2.imshow("test", opened_img)
-        cv2.waitKey(0)
-        conts, _hierarchy = cv2.findContours(opened_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        return conts
 
-    @property
-    def moments(self):
-        moms = []
+    def preprocess_image(self, thresh=None, maxval=None, thresh_type=None, kernel=None, iterations=None):
+        # process args
+        if thresh is None:
+            thresh = 50
+        if maxval is None:
+            maxval = 255
+        if thresh_type is None:
+            thresh_type = cv2.THRESH_BINARY
+        if kernel is None:
+            kernel = np.ones((3,3), np.uint8)
+        if iterations is None:
+            iterations = 6
+        
+        # do thresholding and noise reduction with the `MORPH_OPEN` operation
+        img = cv2.cvtColor(self.base_image, cv2.COLOR_BGR2GRAY)
+        _ret, img = cv2.threshold(img, thresh, maxval, thresh_type)
+        img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel, iterations=iterations)
+        self.working_image = img
+
+    def set_contours(self, mode=None, method=None):
+        # check runtime order
+        if self.working_image is None:
+            raise RuntimeError("self.working_image has not yet been set.\nRun Grains().preprocess_image() to do so.")
+        
+        # process args
+        if mode is None:
+            mode = cv2.RETR_TREE
+        if method is None:
+            method = cv2.CHAIN_APPROX_SIMPLE
+        
+        # locate contours throw away hierarchy
+        contours, _ = cv2.findContours(self.working_image, mode, method)
+        self.contours = contours
+
+    def set_moments(self):
+        # check runtime order
+        if self.contours is None:
+            raise RuntimeError("self.contours has not yet been set.\nRun Grains().set_contours() to do so.")
+        
+        # collect all moments
+        moments = []
         for c in self.contours:
             m = cv2.moments(c)
-            moms.append(m)
-        return moms
+            moments.append(m)
+        self.moments = moments
 
-    @property
-    def centroids(self):
-        cntrs = []
+    def set_centroids(self):
+        # check runtime order
+        if self.moments is None:
+            raise RuntimeError("self.moments has not yet been set.\nRun Grains().set_moments() to do so.")
+        
+        # collect all centroids in list of dicts
+        centroids = []
         for m in self.moments:
             coords = {}
             if m["m00"] == 0:
@@ -40,16 +78,20 @@ class Grains(object):
             else:
                 coords["x"] = int(m["m10"] / m["m00"])
                 coords["y"] = int(m["m01"] / m["m00"])
-            cntrs.append(coords)
-        return cntrs             
-            
-    def write_image(self):
-        img = cv2.imread(self.input_fn)
+            centroids.append(coords)
+        self.centroids = centroids         
+
+    def _write_img_out(self):
+        img = copy.deepcopy(self.base_image)
         for i, c in enumerate(self.centroids):
-            cv2.putText(img, "{}".format(i), (c["x"], c["y"]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv2.circle(img, (c["x"], c["y"]), 3, (0,0,255), thickness=-3)
         cv2.imwrite(self.img_out_fn, img)
         
 
 if __name__ == "__main__":
     g = Grains("test_grains.jpg")
-    g.write_image()
+    g.preprocess_image()
+    g.set_contours()
+    g.set_moments()
+    g.set_centroids()
+    g._write_img_out()
