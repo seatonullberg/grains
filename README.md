@@ -9,9 +9,9 @@ Grain detection with default settings.
 
 # Roadmap
 
-- Grain counter with OpenCV
+- ~~Grain counter with OpenCV~~
 
-- Size distribution analysis
+- ~~Size distribution analysis~~
 
 - Calculate average grain size in accordance with ASTM E112
 
