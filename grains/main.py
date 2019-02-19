@@ -61,7 +61,10 @@ class GrainsAnalyzer(object):
 
     @property
     def area_mean(self):
-        """Returns the mean grain area in micrometers squared"""
+        """Returns the mean grain area in micrometers squared
+        
+        In accordance with ASTM E112 planimetric method.
+        """
 
         mean = np.sum(self.contour_areas_microns())/len(self.contour_areas_microns())
         return mean

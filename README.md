@@ -13,7 +13,7 @@ Grain detection with default settings.
 
 - ~~Size distribution analysis~~
 
-- Calculate average grain size in accordance with ASTM E112
+- ~~Calculate average grain size in accordance with ASTM E112~~
 
 - Validate performance against relevant literature
 
