@@ -18,3 +18,5 @@ Grain detection with default settings.
 - Validate performance against relevant literature
 
 - Wrap functionality into a simple CLI
+
+- package for pip install
