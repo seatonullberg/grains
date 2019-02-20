@@ -1,3 +1,3 @@
-import grains.analyzer
-import grains.plotting
+import grains.analysis
+import grains.graphics
 import grains.errors

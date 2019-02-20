@@ -1,14 +1,14 @@
-class UnsetContoursError(Exception):
+class ContoursError(Exception):
     pass
 
 
-class UnsetWorkingImageError(Exception):
+class WorkingImageError(Exception):
     pass
 
 
-class UnsetMomentsError(Exception):
+class MomentsError(Exception):
     pass
 
 
-class UnsetCentroidsError(Exception):
+class CentroidsError(Exception):
     pass

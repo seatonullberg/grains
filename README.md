@@ -6,15 +6,15 @@ grains is a software package for the tens of tech savy metallurgists and ceramis
 
 This example showcases the basic functionality of the grains software library. Please note that the scale in this example is ARBITRARY as I have not yet found adequate validation images. Refer to the [examples](./examples) directory for the simple source code used to generate these results. 
 
-### Starting Image
+### Input Image
 
 <img src=./examples/test_grains.jpg width=300>
 
-### Image Markup - Default Settings
+### Centroids Image - Default Settings
 
-<img src=./examples/test_grains.image.png width=300>
+<img src=./examples/test_grains.centroids_image.png width=300>
 
-### Histogram - Default Settings
+### Area Histogram - Default Settings
 
 <img src=./examples/test_grains.histogram.png width=450>
 
