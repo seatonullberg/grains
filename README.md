@@ -4,7 +4,7 @@ grains is a software package for the tens of tech savy metallurgists and ceramis
 
 # Example
 
-This example showcases the basic functionality of the grains software library. Please note that the scale in this example are ARBITRARY as I have not yet found adequate validation images. Refer to the [examples](./examples) directory for the simple source code used to generate these results. 
+This example showcases the basic functionality of the grains software library. Please note that the scale in this example is ARBITRARY as I have not yet found adequate validation images. Refer to the [examples](./examples) directory for the simple source code used to generate these results. 
 
 ### Starting Image
 
@@ -41,4 +41,4 @@ This example showcases the basic functionality of the grains software library. P
 
 - Wrap functionality into a simple CLI
 
-- package for pip install
+- Package for pip install
