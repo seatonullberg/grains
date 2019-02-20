@@ -12,11 +12,11 @@ This example showcases the basic functionality of the grains software library. P
 
 ### Image Markup - Default Settings
 
-<img src=./examples/test_grains.jpg.grains.image.png width=300>
+<img src=./examples/test_grains.image.png width=300>
 
 ### Histogram - Default Settings
 
-<img src=./examples/test_grains.jpg.grains.plot.png width=500>
+<img src=./examples/test_grains.histogram.png width=450>
 
 ### Text Summarization - Default Settings
 

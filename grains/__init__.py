@@ -1,2 +1,3 @@
-import grains
-from grains.main import GrainsAnalyzer
+import grains.analyzer
+import grains.plotting
+import grains.errors
