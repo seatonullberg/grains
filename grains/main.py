@@ -224,6 +224,7 @@ class GrainsAnalyzer(object):
         # process args
         if bins is None:
             bins = 20
+
         # plot a histogram of the areas
         areas = self.contour_areas_microns()
         plt.hist(x=areas, bins=bins)
