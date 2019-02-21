@@ -10,12 +10,12 @@ if __name__ == "__main__":
     ga.set_contours()      # find contours
     ga.set_moments()       # find moments from those contours
     ga.set_centroids()     # find centroids from those moments
-    ga.write_summary()     # write basic text file summary of the findings
+    ga.write_summary("test_grains.summary.txt")     # write basic text file summary of the findings
     
     # write image with red dots superimposed over each detected centroid (grain center)
     grains.graphics.write_centroids_image(img=ga.base_image,
                                           centroids=ga.centroids,
-                                          filename="test_grains.centroids_image.png")
+                                          filename="test_grains.centroids.png")
     
     # write a histogram of the grain area distribution
     grains.graphics.write_histogram(data=ga.areas,

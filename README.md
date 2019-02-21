@@ -12,7 +12,7 @@ This example showcases the basic functionality of the grains software library. P
 
 ### Centroids Image - Default Settings
 
-<img src=./examples/test_grains.centroids_image.png width=300>
+<img src=./examples/test_grains.centroids.png width=300>
 
 ### Area Histogram - Default Settings
 
