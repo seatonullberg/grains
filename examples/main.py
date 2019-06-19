@@ -1,5 +1,6 @@
 import grains
 
+
 if __name__ == "__main__":
     # in this example the width and height are not to scale
     ga = grains.analysis.GrainsAnalyzer(input_fn="test_grains.jpg", 
@@ -10,7 +11,7 @@ if __name__ == "__main__":
     ga.set_contours()      # find contours
     ga.set_moments()       # find moments from those contours
     ga.set_centroids()     # find centroids from those moments
-    ga.write_summary("test_grains.summary.txt")     # write basic text file summary of the findings
+    ga.write_summary("test_grains.summary.txt")  # write basic text file summary of the findings
     
     # write image with red dots superimposed over each detected centroid (grain center)
     grains.graphics.write_centroids_image(img=ga.base_image,

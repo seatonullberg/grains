@@ -15,8 +15,10 @@ def write_centroids_image(img, centroids, filename, color=None, thickness=None, 
         color:     BGR tuple for circle color
         thickness: circle thickness (< 0 for solid or > 0 for hollow)
         radius:    circle radius
+
+    Returns:
+        None
     """
-    
     # process args
     if color is None:
         color = (0, 0, 255)
@@ -45,8 +47,10 @@ def write_histogram(data, filename, title=None, xlabel=None, ylabel=None, xlim=N
         bins:     passed to ax.hist()
         colormap: a plt.cm used to style the histogram bars
         figsize:  passed to plt.subplots()
+
+    Returns:
+        None
     """
-    
     # process args
     if title is None:
         title = "Grain Area Distribution"
@@ -58,15 +62,14 @@ def write_histogram(data, filename, title=None, xlabel=None, ylabel=None, xlim=N
         xlim = (min(data), max(data))
     if bins is None:
         bins = 25
-    if colormap is None:
-        colormap = plt.cm.viridis
     if figsize is None:
         figsize = (6, 8)
     # make plot
     _, ax = plt.subplots(tight_layout=True, figsize=figsize)
     n, _, patches = ax.hist(data, bins=bins)
     fractions = n/n.max()
-    _color_normalization(fractions, patches, colormap)
+    if colormap is not None:
+        _color_normalization(fractions, patches, colormap)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -81,8 +84,10 @@ def _color_normalization(fractions, patches, colormap):
         fractions: 0-1 value used to map a color intensity to a bar height
         patches:   list of histogram bars (? unsure of the exact type ?)
         colormap:  plt.cm used to assign colors
+
+    Returns:
+        None
     """
-    
     norm = colors.Normalize(fractions.min(), fractions.max())
     for f, p in zip(fractions, patches):
         color = colormap(norm(f))

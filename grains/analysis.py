@@ -12,12 +12,13 @@ class GrainsAnalyzer(object):
 
     Determines the number and area distribution of grains 
     in a given image with built-in text summarization.
-    
-    Attributes:
+
+    Args:
         input_fn:       filename of the image being analyzed.
         height_microns: height of the image content in micrometers.
         width_microns:  width of the image content in micrometers.
-
+    
+    Attributes:
         base_image:     input image as an array.
         working_image:  input_image as an array after preprocessing.
         contours:       OpenCV contours detected in the working_image.
@@ -26,7 +27,7 @@ class GrainsAnalyzer(object):
     """
 
     def __init__(self, input_fn, height_microns, width_microns):
-        """Inits GrainsAnalyzer object with required information
+        """Inits GrainsAnalyzer object with required information.
         
         Args:
             input_fn:       filename of the image being analyzed
@@ -50,7 +51,7 @@ class GrainsAnalyzer(object):
 
     @property
     def total_count(self):
-        """Returns the number of grains detected.
+        """(int) The number of grains detected.
         
         Raises:
             ContoursError
@@ -62,12 +63,11 @@ class GrainsAnalyzer(object):
 
     @property
     def areas(self):
-        """Returns the area of each detected grain in square micrometers.
+        """(list of float): The area of each detected grain in square micrometers.
         
         Raises:
             ContoursError
         """
-
         # check runtime order
         if self.contours is None:
             raise errors.ContoursError("self.contours has not yet been set.\nRun Grains().set_contours to do so.")
@@ -81,22 +81,19 @@ class GrainsAnalyzer(object):
 
     @property
     def area_mean(self):
-        """Returns the mean grain area in micrometers squared (ASTM E112 planimetric method)."""
-
+        """(float): The mean grain area in micrometers squared (ASTM E112 planimetric method)."""
         mean = np.sum(self.areas)/len(self.areas)
         return mean
 
     @property
     def area_variance(self):
-        """Returns the variance of grain areas in micrometers squared."""
-
+        """(float): The variance of grain areas in micrometers squared."""
         var = np.var(self.areas)
         return var
 
     @property
     def area_stdev(self):
-        """Returns the standard deviation of grain areas in micrometers squared."""
-
+        """(float): The standard deviation of grain areas in micrometers squared."""
         stdev = np.std(self.areas)
         return stdev
 
@@ -112,8 +109,10 @@ class GrainsAnalyzer(object):
             maxval:     passed to cv2.threshold()
             kernel:     passed to cv2.threshold()
             iterations: passed to cv2.morphologyEx() for the `MORPH_OPEN` operation 
+        
+        Returns:
+            None
         """
-
         # process args
         if thresh is None:
             thresh = 50
@@ -139,8 +138,10 @@ class GrainsAnalyzer(object):
         
         Raises:
             WorkingImageError
-        """
 
+        Returns:
+            None
+        """
         # check runtime order
         if self.working_image is None:
             raise errors.WorkingImageError("self.working_image has not yet been set.\nRun Grains().preprocess_image() to do so.")
@@ -157,8 +158,10 @@ class GrainsAnalyzer(object):
 
         Raises:
             ContoursError
-        """
 
+        Returns:
+            None
+        """
         # check runtime order
         if self.contours is None:
             raise errors.ContoursError("self.contours has not yet been set.\nRun Grains().set_contours() to do so.")
@@ -174,8 +177,10 @@ class GrainsAnalyzer(object):
 
         Raises:
             MomentsError
-        """
 
+        Returns:
+            None
+        """
         # check runtime order
         if self.moments is None:
             raise errors.MomentsError("self.moments has not yet been set.\nRun Grains().set_moments() to do so.")
@@ -194,7 +199,14 @@ class GrainsAnalyzer(object):
         self.centroids = centroids         
 
     def write_summary(self, filename):
-        """Writes the summary text file."""
+        """Writes the summary text file.
+        
+        Args:
+            filename: Name to give the summary file.
+
+        Returns:
+            None
+        """
 
         with open(filename, "w") as f:
             input_fn = os.path.basename(self.input_fn)
