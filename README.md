@@ -2,7 +2,7 @@
 
 ## Summary
 
-`grains` is a software package for the tech savy metallurgists and ceramists out
+`grains` is a software package for the tech savvy metallurgists and ceramists out
 there who are tired of counting grains by hand. The goal of this project is to
 automate the process of grain analysis by applying modern computer vision
 algorithms.
