@@ -2,23 +2,24 @@
 
 ## Summary
 
-`grains` is a software package for the tech savvy metallurgists and ceramists out
-there who are tired of counting grains by hand. The goal of this project is to
-automate the process of grain analysis by applying modern computer vision
-algorithms.
+`grains` is a software package for tech savvy metallurgists and ceramists who
+are tired of counting grains by hand. The software reports information related
+to the size distribution of grains in a micrograph in both text and graphical
+formats. The goal of this project is to automate the process of grain analysis
+by applying modern computer vision algorithms.
 
 ## Installation
 
 `grains` can be installed easily through the terminal via:
 
-    pip install grains
+    $ pip install grains
 
 To install `grains` from source for development:
 
-    git clone https://github.com/seatonullberg/grains.git
-    cd grains
-    pip install -r requirements.txt
-    pip install -e .
+    $ git clone https://github.com/seatonullberg/grains.git
+    $ cd grains
+    $ pip install -r requirements.txt
+    $ pip install -e .
 
 ## Usage
 
@@ -30,7 +31,7 @@ the simple source code used to generate these results.
 If you are more interested in using `grains` as a CLI, the results of
 this example can be replicated with the following command.
 
-    grains --h=<image height> --w=<image width> <path/to/image>
+    $ grains --h=<image height> --w=<image width> <path/to/image>
 
 ### Input Image
 
@@ -69,3 +70,16 @@ this example can be replicated with the following command.
 - Validate performance and construct test cases
 
 - Make official release on Github
+
+## Citation
+
+If you use this software in a publication please cite me using the following
+BibTeX format.
+
+    @Misc{,
+        author = {R. Seaton Ullberg},
+        title = {{grains}: Automatic Grain Analysis Tool},
+        year = {2019--},
+        url = "https://github.com/seatonullberg/grains",
+        note = {[Online; accessed <today>]}
+    }
